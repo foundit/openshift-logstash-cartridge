@@ -1,0 +1,16 @@
+Name: logstash
+Cartridge-Short-Name: logstash
+Display-Name: Logstash 1.4.1
+Version: "1.4.1"
+Versions: ["1.4.1"]
+Cartridge-Version: 0.0.1
+Cartridge-Vendor: found
+Categories:
+ - service
+ - logstash
+Provides:
+ - logstash
+Scaling:
+  Min: 1
+  Max: -1
+

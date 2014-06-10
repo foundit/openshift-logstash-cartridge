@@ -1,0 +1,26 @@
+# See http://logstash.net/docs/latest/ for documentation on how to configure Logstash.
+
+input {
+
+    file {
+        path => "<%= ENV['OPENSHIFT_LOG_DIR'] %>*.log"
+        tags => ["<%= ENV['OPENSHIFT_APP_NAME'] %>", "<%= ENV['OPENSHIFT_GEAR_NAME'] %>", "<%= ENV['OPENSHIFT_NAMESPACE'] %>"]
+    }
+
+}
+
+output {
+
+    elasticsearch_http {
+        host => "<%= ENV['OPENSHIFT_LOGSTASH_ES_HOST'] %>"
+<% if ENV['OPENSHIFT_LOGSTASH_ES_USER'] %>
+        user => "<%= ENV['OPENSHIFT_LOGSTASH_ES_USER'] %>"
+<% end %>
+<% if ENV['OPENSHIFT_LOGSTASH_ES_PASSWORD'] %>
+        password => "<%= ENV['OPENSHIFT_LOGSTASH_ES_PASSWORD'] %>"
+<% end %>
+        # Assume the cluster has a reasonable template. Surely not to be managed separately by ever single cartridge.
+        manage_template => false
+    }
+
+}
