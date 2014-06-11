@@ -2,11 +2,34 @@
 
 input {
 
+    # Anything logged, except python.log
     file {
         path => "<%= ENV['OPENSHIFT_LOG_DIR'] %>*.log"
         tags => ["<%= ENV['OPENSHIFT_APP_NAME'] %>", "<%= ENV['OPENSHIFT_GEAR_NAME'] %>", "<%= ENV['OPENSHIFT_NAMESPACE'] %>"]
+        exclude => "python.log"
     }
 
+    # We know that python.log has Apache access logs.
+    file {
+        path => "<%= ENV['OPENSHIFT_LOG_DIR'] %>python.log"
+        tags => ["<%= ENV['OPENSHIFT_APP_NAME'] %>", "<%= ENV['OPENSHIFT_GEAR_NAME'] %>", "<%= ENV['OPENSHIFT_NAMESPACE'] %>"]
+        type => "apache"
+    }
+
+}
+
+filter {
+    if [type] == "apache" {
+
+        grok {
+            match => ["message", "%{COMBINEDAPACHELOG}"]
+        }
+
+        date {
+            match => ["timestamp", "dd/MMM/yyyy:HH:mm:ss Z"]
+        }
+
+    }
 }
 
 output {
