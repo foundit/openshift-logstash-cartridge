@@ -1,3 +1,25 @@
 #!/bin/bash
 
+if ! [ ${OPENSHIFT_LOGSTASH_ES_HOST} ]; then
+   cat >&2 <<-EOF
+   Missing env var OPENSHIFT_LOGSTASH_ES_HOST.
+   Please execute following command and try again:
+
+     \$ rhc env set OPENSHIFT_LOGSTASH_ES_HOST=<your.elasticsearch.hostname>
+   EOF
+   exit 1
+fi
+
+if ! [ ${OPENSHIFT_LOGSTASH_ES_PORT} ]; then
+   cat <<-EOF
+   Env var OPENSHIFT_LOGSTASH_ES_PORT was not found.
+
+   If your Elasticsearch instance is running under OpenShift,
+   chances are it is bound to port 80 instead 9200.
+   If this is the case, please run following command and restart your app:
+
+     \$ rhc env set OPENSHIFT_LOGSTASH_ES_PORT=80 -a $OPENSHIFT_APP_NAME -n $OPENSHIFT_NAMESPACE"
+   EOF
+fi
+
 curl -s https://download.elasticsearch.org/logstash/logstash/logstash-1.4.1.tar.gz | tar xz
