@@ -3,7 +3,7 @@
 input {
 
     file {
-        path => "<%= ENV['OPENSHIFT_PRIMARY_CARTRIDGE_DIR'] %>/logs/*",
+        path => "<%= ENV['OPENSHIFT_PRIMARY_CARTRIDGE_DIR'] %>/logs/*"
         tags => ["<%= ENV['OPENSHIFT_APP_NAME'] %>", "<%= ENV['OPENSHIFT_GEAR_NAME'] %>", "<%= ENV['OPENSHIFT_NAMESPACE'] %>"]
     }
 
