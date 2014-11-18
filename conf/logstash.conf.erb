@@ -13,6 +13,7 @@ output {
 
     elasticsearch_http {
         host => "<%= ENV['OPENSHIFT_LOGSTASH_ES_HOST'] %>"
+        port => "<%= ENV['OPENSHIFT_LOGSTASH_ES_PORT'] || 9300 %>"
 <% if ENV['OPENSHIFT_LOGSTASH_ES_USER'] %>
         user => "<%= ENV['OPENSHIFT_LOGSTASH_ES_USER'] %>"
 <% end %>
