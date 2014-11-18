@@ -8,9 +8,11 @@ This is a simple cartridge for making Logstash easily available in your applicat
 These environment variables are used when configuring Logstash:
 
  * **`OPENSHIFT_LOGSTASH_ES_HOST`**: URL of the Elasticsearch cluster to log to. Required.
+ * **`OPENSHIFT_LOGSTASH_ES_PORT`**: Port Elasticsearch is running. Optional, default=9200.
  * **`OPENSHIFT_LOGSTASH_ES_USERNAME`**: Username to connect as. Optional.
  * **`OPENSHIFT_LOGSTASH_ES_PASSWORD`**: Password to connect with. Optional.
 
+If your Elasticsearch is running under OpenShift itself, set environment variable `OPENSHIFT_LOGSTASH_ES_PORT` to specify the port it's waitings connections on.
 
 ## Installation
 
