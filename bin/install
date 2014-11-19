@@ -1,3 +1,22 @@
 #!/bin/bash
 
+source $OPENSHIFT_CARTRIDGE_SDK_BASH
+
+if ! [ ${OPENSHIFT_LOGSTASH_ES_HOST} ]; then
+	cat >&2 <<-EOF
+		Missing env var OPENSHIFT_LOGSTASH_ES_HOST.
+		Please execute the following command and try again:
+
+		  \$ rhc env set OPENSHIFT_LOGSTASH_ES_HOST=<your.elasticsearch.hostname> -a $OPENSHIFT_APP_NAME -n $OPENSHIFT_NAMESPACE
+	EOF
+	exit 1
+fi
+
+if ! [ ${OPENSHIFT_LOGSTASH_ES_PORT} ]; then
+	client_result "Env var OPENSHIFT_LOGSTASH_ES_PORT was not found."
+	client_result "If your Elasticsearch instance is running under OpenShift, chances are it is bound to port 80 instead 9200."
+	client_result "If this is the case, please run the following command and restart your app:"
+	client_result "  \$ rhc env set OPENSHIFT_LOGSTASH_ES_PORT=80 -a $OPENSHIFT_APP_NAME -n $OPENSHIFT_NAMESPACE"
+fi
+
 curl -s https://download.elasticsearch.org/logstash/logstash/logstash-1.4.1.tar.gz | tar xz

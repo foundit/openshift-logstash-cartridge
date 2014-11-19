@@ -3,7 +3,7 @@
 input {
 
     file {
-        path => "<%= ENV['OPENSHIFT_LOG_DIR'] %>*.log"
+        path => "<%= ENV['OPENSHIFT_PRIMARY_CARTRIDGE_DIR'] %>/logs/*"
         tags => ["<%= ENV['OPENSHIFT_APP_NAME'] %>", "<%= ENV['OPENSHIFT_GEAR_NAME'] %>", "<%= ENV['OPENSHIFT_NAMESPACE'] %>"]
     }
 
@@ -13,6 +13,7 @@ output {
 
     elasticsearch_http {
         host => "<%= ENV['OPENSHIFT_LOGSTASH_ES_HOST'] %>"
+        port => "<%= ENV['OPENSHIFT_LOGSTASH_ES_PORT'] || 9200 %>"
 <% if ENV['OPENSHIFT_LOGSTASH_ES_USER'] %>
         user => "<%= ENV['OPENSHIFT_LOGSTASH_ES_USER'] %>"
 <% end %>
